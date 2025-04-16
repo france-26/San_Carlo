@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrazione</title>
+  <style>
+    :root {
+      --input-focus: #e74c3c;
+      --font-color: #fff;
+      --font-color-sub: #ccc;
+      --bg-color: #2c3e50;
+      --main-color: #2aa574;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #000;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      padding: 20px;
+      background: #d1ccbc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      border-radius: 10px;
+      border: 2px solid var(--main-color);
+      box-shadow: 4px 4px var(--main-color);
+      width: 350px;
+    }
+
+    .title {
+      color: var(--font-color);
+      font-weight: 900;
+      font-size: 24px;
+      text-align: center;
+    }
+
+    .input {
+      width: 100%;
+      height: 45px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--font-color);
+      padding: 5px 2px;
+      outline: none;
+      border: 2px solid #ccc;
+      background-color: #2b110e;
+      text-align: center;
+    }
+
+    .input::placeholder {
+      color: #d4f4dd;
+      opacity: 0.8;
+    }
+
+    .input:focus {
+      border: 4px solid var(--input-focus);
+    }
+
+    .button-confirm {
+      margin-top: 20px;
+      width: 100%;
+      height: 45px;
+      border-radius: 10px;
+      border: 2px solid var(--main-color);
+      background-color: var(--bg-color);
+      box-shadow: 4px 4px var(--main-color);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--font-color);
+      cursor: pointer;
+    }
+
+    .button-confirm:active {
+      box-shadow: 0px 0px var(--main-color);
+      transform: translate(3px, 3px);
+    }
+
+    .message {
+      color: red;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .button-login {
+      margin-top: 10px;
+      width: 100%;
+      height: 45px;
+      border-radius: 10px;
+      border: 2px solid var(--main-color);
+      background-color: #28a745;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .button-login:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="title">Registrazione</div>
+    <form id="registrationForm">
+      <input type="text" id="username" class="input" placeholder="Nome Utente" required>
+      <input type="text" id="nome" class="input" placeholder="Nome" required>
+      <input type="text" id="cognome" class="input" placeholder="Cognome" required>
+      <input type="email" id="email" class="input" placeholder="Email" required>
+      <input type="password" id="password" class="input" placeholder="Password" required>
+      <input type="date" id="dataDiNascita" class="input" required>
+      <!-- Campo nascosto per il tipo di conto -->
+      <input type="hidden" id="tipoConto" name="tipoConto">
+
+      <button type="submit" class="button-confirm">Registrati</button>
+    </form>
+    <div class="message" id="registrationMessage"></div>
+    <button class="button-login" onclick="window.location.href='login.html'">Accedi se hai già un account</button>
+  </div>
+
+  <script>
+    window.onload = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const tipoConto = urlParams.get('conto');
+      if (tipoConto) {
+        document.getElementById('tipoConto').value = tipoConto;
+      }
+
+      const form = document.getElementById('registrationForm');
+      const message = document.getElementById('registrationMessage');
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const userData = {
+          username: document.getElementById('username').value.trim(),
+          nome: document.getElementById('nome').value.trim(),
+          cognome: document.getElementById('cognome').value.trim(),
+          email: document.getElementById('email').value.trim(),
+          password: document.getElementById('password').value,
+          dataDiNascita: document.getElementById('dataDiNascita').value,
+          tipoConto: document.getElementById('tipoConto').value
+        };
+
+        // Controllo se ogni campo è valorizzato
+        for (let key in userData) {
+          if (!userData[key]) {
+            message.textContent = 'Tutti i campi sono obbligatori.';
+            message.style.color = 'red';
+            return;
+          }
+        }
+
+        fetch('/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(userData)
+        })
+          .then(res => res.json())
+          .then(data => {
+            message.textContent = data.message;
+            message.style.color = data.success ? 'green' : 'red';
+
+            if (data.success) {
+              setTimeout(() => {
+                window.location.href = 'dashboard.html';
+              }, 2000);
+            }
+          })
+          .catch(err => {
+            console.error('Errore nella registrazione:', err);
+            message.textContent = 'Errore durante la registrazione.';
+            message.style.color = 'red';
+          });
+      });
+    };
+  </script>
+
+</body>
+</html>

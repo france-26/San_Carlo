@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prestiti - Banca San Carlo</title>
+    <style>
+        /* Stili già esistenti */
+        .navbar {
+            display: flex;
+            align-items: center;
+            background-color: #163730;
+            width: 100%;
+            position: fixed;
+            height: 60px;
+            top: 0;
+            left: 0;
+        }
+        .navbar img {
+            width: 60px;
+            height: 60px;
+            margin-right: 10px;
+        }
+        .content-menu_menu {
+            display: flex;
+            width: 100%;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        .content-menu_menu li {
+            background-color: #163730;
+            list-style-type: none;
+        }
+        .content-menu_menu li a {
+            display: block;
+            padding: 14px 20px;
+            color: white;
+            text-decoration: none;
+        }
+        .content-menu_menu li a:hover {
+            background-color: #00BF8B;
+        }
+        .content {
+            padding: 100px 10%;
+        }
+        .account-info {
+            background-color: #f9f9f9;
+            padding: 30px;
+            margin: 20px auto;
+            width: 60%;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .account-info h2 {
+            color: #163730;
+        }
+        .account-box {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+        .account-box img {
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+            border-radius: 8px;
+        }
+        .register-button {
+            display: inline-block;
+            background-color: #00BF8B;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .register-button:hover {
+            background-color: #008060;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 80px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+        h2 {
+            color: #163730;
+        }
+        label, input, select, button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+        }
+        button {
+            background-color: #00BF8B;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #008060;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <img src="immagini/logobanca.webp" alt="Logo Banca">
+        <ul class="content-menu_menu">
+            <li><a href="dashboard.html">Home</a></li>
+        </ul>
+    </div>
+    
+    <div class="container">
+        <h2>Richiedi un Prestito</h2>
+        <form id="loanForm">
+            <label for="importo">Importo richiesto (€):</label>
+            <input type="number" id="importo" required>
+            
+            <label for="durata">Durata del prestito (mesi):</label>
+            <input type="number" id="durata" required>
+
+            <label for="tipoContratto">Tipo di contratto:</label>
+            <select id="tipoContratto" required>
+                <option value="tempoIndeterminato">Tempo Indeterminato</option>
+                <option value="tempoDeterminato">Tempo Determinato</option>
+                <option value="autonomo">Autonomo</option>
+                <option value="altro">Altro</option>
+            </select>
+
+            <label for="dataInizioLavoro">Da quando hai iniziato a lavorare?</label>
+            <input type="date" id="dataInizioLavoro" required>
+
+            <p>Il tasso di interesse fisso è del 5% annuo.</p>
+            
+            <button type="button" onclick="calcolaPrestito()">Calcola Prestito</button>
+            
+            <h3>Dettagli Prestito:</h3>
+            <p>Importo totale da restituire: €<span id="totale"></span></p>
+            <p>Rata mensile: €<span id="rataMensile"></span></p>
+        </form>
+    </div>
+
+    <script>
+        function calcolaPrestito() {
+            let importo = parseFloat(document.getElementById('importo').value);
+            let durata = parseInt(document.getElementById('durata').value);
+            
+            if (isNaN(importo) || isNaN(durata) || importo <= 0 || durata <= 0) {
+                alert("Inserisci valori validi.");
+                return;
+            }
+            
+            let interesseAnnuo = 0.05;
+            let interesseTotale = importo * interesseAnnuo * (durata / 12);
+            let totale = importo + interesseTotale;
+            let rataMensile = totale / durata;
+            
+            document.getElementById('totale').innerText = totale.toFixed(2);
+            document.getElementById('rataMensile').innerText = rataMensile.toFixed(2);
+
+            // Salva il prestito nel CSV e reindirizza
+            salvaPrestito(importo, durata, interesseTotale, totale, rataMensile);
+        }
+
+        function salvaPrestito(importo, durata, interesseTotale, totale, rataMensile) {
+            const prestitoData = {
+                importo: importo,
+                durata: durata,
+                interesseTotale: interesseTotale,
+                totale: totale,
+                rataMensile: rataMensile
+            };
+
+            fetch('/salvaPrestito', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(prestitoData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                
+                // Dopo aver salvato, reindirizza l'utente al suo conto
+                if (data.success) {
+                    window.location.href = '/conto.html'; // Cambia con l'URL della pagina del conto aggiornato
+                }
+            })
+            .catch(error => console.error('Error saving loan data:', error));
+        }
+    </script>
+</body>
+</html>

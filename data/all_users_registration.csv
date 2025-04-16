@@ -1,0 +1,7 @@
+Username,Nome,Cognome,Email,Password,HashPassword,Data di Nascita,NumeroConto,Saldo,ContoTipo,ImportoPrestito,Durata,InteresseTotale,Totale,RataMensile,NumeroCarta,CVV,Scadenza
+Toma,vale,ripa,toffolo@gmail.com,gigio123,$2b$10$qZF9jtzNtt0qj.yl4l5bX./evPDUToHXie9l9pHbR4iCmpPwbVniS,2001-01-10,IT2265855239,0,online_gratuito,,,,,,6692 6413 6220 7580,649,04/28
+france,france,france,francesco.ceriello@isitgo.it,fra,$2b$10$1XlQQ2YXTpZJifobFyvvBOtufjDV6seo1IgpxNoEET5h/A4lGkzFG,2000-01-26,IT2240421187,0,canone_fisso,,,,,,4436 1601 0188 3406,755,04/28
+p,p,p,federico.lupieri@hotmail.it,p2,$2b$10$AYSYaHvMQ6YQe41rLLDL5.l2dAOagTT1Ghb7rOFjAhxOPXPqWBgme,2000-02-22,IT9150165391,0,canone_fisso,,,,,,9482 8825 1831 3093,668,04/28
+q,qq,qqq,qqqq@gmail.com,aaaa,$2b$10$9HPUtwyXVVG3M2s8362V7utwANYKTyel5tr4ZOfPAMHhPRXiSUGKC,2000-02-20,IT3054228730,0,canone_fisso,2000,2,16.666666666666664,2016.6666666666667,1008.3333333333334,6683 2995 4188 8602,256,04/28
+a,aa,aaa,aaaaaaaaaaaaaaaaaaaaa@gmail.com,pollo,$2b$10$kaWaAZegRbq3jlZ0gl0YquV6FlHeRhj3Ly.UfD7nnlfmx.gHl7sOm,2020-01-26,IT2151661339,0,canone_fisso,2000,2,16.666666666666664,2016.6666666666667,1008.3333333333334,9947 4240 4818 9585,654,04/28
+z,zz,zzz,zzzzzzzzz@gmail.com,loppo,$2b$10$ny06sQCG7QaJfBG9REaUgO5E8.wyECAwA9maYFyxhaZ5EfMZE153W,2000-01-20,IT6777321371,0,online_gratuito,,,,,,5410 8948 7283 9278,347,04/28

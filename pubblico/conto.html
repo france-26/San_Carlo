@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestione Conto - Banca San Carlo</title>
+    <style>
+        /* Stili generali */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+        
+        /* Navbar */
+        .navbar {
+            display: flex;
+            align-items: center;
+            background-color: #163730;
+            width: 100%;
+            position: fixed;
+            height: 60px;
+            top: 0;
+            left: 0;
+            padding: 0 20px;
+        }
+        .navbar img {
+            width: 60px;
+            height: 60px;
+            margin-right: 10px;
+        }
+        .content-menu_menu {
+            display: flex;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+        .content-menu_menu li {
+            list-style: none;
+        }
+        .content-menu_menu li a {
+            display: block;
+            padding: 14px 20px;
+            color: white;
+            text-decoration: none;
+        }
+        .content-menu_menu li a:hover {
+            background-color: #00BF8B;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 80px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+        h2 {
+            color: #163730;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #163730;
+            color: white;
+        }
+        .info-box {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        .prestito-box {
+            background-color: #e1f7e1;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <img src="immagini/logobanca.webp" alt="Logo Banca">
+        <ul class="content-menu_menu">
+            <li><a href="dashboard.html">Home</a></li>
+            <li><a href="prestiti.html">Prestiti</a></li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <h2>Informazioni Conto</h2>
+        <div class="info-box">
+            <p><strong>Nome:</strong> <span id="nome"></span></p>
+            <p><strong>Numero Conto:</strong> <span id="numeroConto"></span></p>
+            <p><strong>Saldo:</strong> €<span id="saldo"></span></p>
+        </div>
+
+        <!-- Sezione Prestito -->
+        <div class="prestito-box" id="prestitoBox" style="display:none;">
+            <h3>Dettagli Prestito</h3>
+            <p><strong>Importo Prestito:</strong> €<span id="importoPrestito"></span></p>
+            <p><strong>Durata:</strong> <span id="durataPrestito"></span> mesi</p>
+            <p><strong>Rata Mensile:</strong> €<span id="rataMensile"></span></p>
+            <p><strong>Interesse Totale:</strong> €<span id="interesseTotale"></span></p>
+            <p><strong>Totale da Restituire:</strong> €<span id="totalePrestito"></span></p>
+        </div>
+
+        <h2>Ultimi Movimenti</h2>
+        <table id="movimentiTable">
+            <tr>
+                <th>Data Contabile</th>
+                <th>Data Valuta</th>
+                <th>Operazione</th>
+                <th>Importo</th>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        async function fetchAccountInfo() {
+            const response = await fetch('/getContoInfo'); // Endpoint per ottenere le informazioni del conto
+            const data = await response.json();
+            if (data.success) {
+                // Popola i dettagli del conto
+                document.getElementById('nome').innerText = data.nome;
+                document.getElementById('numeroConto').innerText = data.numeroConto;
+                document.getElementById('saldo').innerText = data.saldo;
+
+                // Popola la tabella dei movimenti
+                const table = document.getElementById('movimentiTable');
+                data.movimenti.forEach(movimento => {
+                    let row = document.createElement('tr');
+                    let dataContabile = document.createElement('td');
+                    let dataValuta = document.createElement('td');
+                    let operazione = document.createElement('td');
+                    let importo = document.createElement('td');
+
+                    dataContabile.innerText = movimento.dataContabile;
+                    dataValuta.innerText = movimento.dataValuta;
+                    operazione.innerText = movimento.operazione;
+                    importo.innerText = movimento.importo;
+
+                    row.appendChild(dataContabile);
+                    row.appendChild(dataValuta);
+                    row.appendChild(operazione);
+                    row.appendChild(importo);
+
+                    table.appendChild(row);
+                });
+
+                // Se ci sono prestiti, mostra i dettagli
+                if (data.prestito) {
+                    document.getElementById('prestitoBox').style.display = 'block';
+                    document.getElementById('importoPrestito').innerText = data.prestito.importo;
+                    document.getElementById('durataPrestito').innerText = data.prestito.durata;
+                    document.getElementById('rataMensile').innerText = data.prestito.rataMensile;
+                    document.getElementById('interesseTotale').innerText = data.prestito.interesseTotale;
+                    document.getElementById('totalePrestito').innerText = data.prestito.totale;
+                }
+            } else {
+                alert('Errore nel recupero delle informazioni del conto.');
+            }
+        }
+
+        fetchAccountInfo();
+    </script>
+</body>
+</html>

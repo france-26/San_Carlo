@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Banca San Carlo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      background-color: #163730;
+      width: 100%;
+      position: fixed;
+      height: 60px;
+      top: 0;
+      left: 0;
+    }
+
+    .navbar img {
+      width: 60px;
+      height: 60px;
+      margin-right: 10px;
+    }
+
+    .content-menu_menu {
+      display: flex;
+      width: 100%;
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .content-menu_menu li {
+      background-color: #163730;
+      list-style-type: none;
+    }
+
+    .content-menu_menu li a {
+      display: block;
+      padding: 14px 20px;
+      color: white;
+      text-decoration: none;
+    }
+
+    .content-menu_menu li a:hover {
+      background-color: #00BF8B;
+    }
+
+    .content {
+      padding: 100px 10%;
+    }
+
+    .account-info {
+      background-color: #f9f9f9;
+      padding: 30px;
+      margin: 20px auto;
+      width: 60%;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .account-info h2 {
+      color: #163730;
+    }
+
+    .account-box {
+      display: flex;
+      align-items: center;
+      background-color: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+      text-align: left;
+    }
+
+    .account-box img {
+      width: 100px;
+      height: 100px;
+      margin-right: 20px;
+      border-radius: 8px;
+    }
+
+    .register-button {
+      display: inline-block;
+      background-color: #00BF8B;
+      color: white;
+      padding: 15px 30px;
+      text-decoration: none;
+      font-size: 18px;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+
+    .register-button:hover {
+      background-color: #008060;
+    }
+
+    .footer-menu {
+      background-color: #f1f1f1;
+      padding: 20px;
+      text-align: center;
+      width: 100%;
+    }
+
+    #cookie-banner {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      width: 80%;
+      max-width: 400px;
+      text-align: left;
+    }
+
+    #cookie-banner p {
+      margin: 0;
+      color: #333;
+    }
+
+    #cookie-banner button {
+      background-color: #00BF8B;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-left: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    #cookie-banner button:hover {
+      background-color: #008060;
+    }
+  </style>
+</head>
+<body>
+   <div class="navbar">
+    <img src="/immagini/logoBanca.webp" alt="Logo Banca">
+    <ul class="content-menu_menu">
+      <li><a href="#">Home</a></li>
+      <li><a href="login.html">Accedi</a></li>
+    </ul>
+  </div>
+
+  <div class="content">
+    <h1>INTESA SAN CARLO</h1>
+    <div class="account-info">
+      <h2>Ecco una breve descrizione dei vari tipi di conti:</h2>
+
+      <div class="account-box">
+        <!-- Modifica il percorso per l'immagine -->
+        <img src="/immagini/fotoConto1.jpg" alt="Conto a canone fisso">
+        <div>
+          <h3>Conto corrente a canone fisso</h3>
+          <p>- Prevede il pagamento di un canone mensile fisso.</p>
+          <p>- Consente operazioni illimitate sia in filiale che online senza costi aggiuntivi.</p>
+          <p>- Ideale per chi effettua molte operazioni e vuole una gestione semplice senza costi variabili.</p>
+          <!-- Aggiunto il parametro query per il tipo di conto -->
+          <a href="registrazione.html?conto=canone_fisso" class="register-button">Registrati</a>
+        </div>
+      </div>
+
+      <div class="account-box">
+        <!-- Modifica il percorso per l'immagine -->
+        <img src="/immagini/fotoConto2.jpg" alt="Conto online gratuito">
+        <div>
+          <h3>Conto corrente senza canone con operazioni online gratuite</h3>
+          <p>- Nessun canone fisso.</p>
+          <p>- Tutte le operazioni online sono gratuite.</p>
+          <p>- Le operazioni effettuate in filiale hanno un costo di 3,00€ ciascuna.</p>
+          <p>- Adatto a chi gestisce il conto principalmente online e ha un uso limitato della filiale.</p>
+          <!-- Aggiunto il parametro query per il tipo di conto -->
+          <a href="registrazione.html?conto=online_gratuito" class="register-button">Registrati</a>
+        </div>
+      </div>
+
+      <div class="account-box">
+        <!-- Modifica il percorso per l'immagine -->
+        <img src="/immagini/fotoConto3.jpg" alt="Conto deposito">
+        <div>
+          <h3>Conto deposito</h3>
+          <p>- Consente solo prelievi e versamenti, senza altre operazioni (come bonifici o pagamenti).</p>
+          <p>- Prevede un tasso di interesse fisso determinato all’apertura del conto.</p>
+          <p>- Gli interessi sono calcolati giornalmente in base al saldo disponibile.</p>
+          <p>- Indicato per chi desidera un conto di risparmio con rendimenti certi.</p>
+          <!-- Aggiunto il parametro query per il tipo di conto -->
+          <a href="registrazione.html?conto=deposito" class="register-button">Registrati</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-menu">
+      <h2>Contatti</h2>
+      <p>Email: info@esempio.com</p>
+      <p>Telefono: +39 351 xxx xx50</p>
+      <p>Indirizzo: Via vaiq, 12, Gorizia, It</p>
+      <p><a href="https://www.commercianti.online/blog/normativa-cookie/">Cookie Policy</a></p>
+      <p><a href="#" onclick="resetCookieConsent()">Modifica preferenze sui cookie</a></p>
+    </div>
+  </footer>
+
+  <div id="cookie-banner">
+    <p>Questo sito utilizza cookie per migliorare l'esperienza utente. Maggiori informazioni nella nostra <a href="https://www.commercianti.online/blog/normativa-cookie/">Cookie Policy</a>.</p>
+    <button onclick="acceptCookies()">Accetta</button>
+    <button onclick="declineCookies()">Rifiuta</button>
+  </div>
+
+  <script>
+    function acceptCookies() {
+        document.getElementById('cookie-banner').style.display = 'none';
+        localStorage.setItem('cookieConsent', 'accepted');
+    }
+
+    function declineCookies() {
+        document.getElementById('cookie-banner').style.display = 'none';
+        localStorage.setItem('cookieConsent', 'declined');
+    }
+
+    window.onload = function() {
+        if (!localStorage.getItem('cookieConsent')) {
+            document.getElementById('cookie-banner').style.display = 'block';
+        }
+    };
+
+    function resetCookieConsent() {
+        localStorage.removeItem('cookieConsent');
+        location.reload();
+    }
+  </script>
+</body>
+</html>
